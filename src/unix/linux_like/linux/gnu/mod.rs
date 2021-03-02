@@ -525,7 +525,10 @@ pub const RLIMIT_MSGQUEUE: ::__rlimit_resource_t = 12;
 pub const RLIMIT_NICE: ::__rlimit_resource_t = 13;
 pub const RLIMIT_RTPRIO: ::__rlimit_resource_t = 14;
 pub const RLIMIT_RTTIME: ::__rlimit_resource_t = 15;
+#[cfg(not(target_arch = "e2k64"))]
 pub const RLIMIT_NLIMITS: ::__rlimit_resource_t = 16;
+#[cfg(target_arch = "e2k64")]
+pub const RLIMIT_NLIMITS: ::__rlimit_resource_t = 10003;
 
 pub const PRIO_PROCESS: ::__priority_which_t = 0;
 pub const PRIO_PGRP: ::__priority_which_t = 1;
@@ -1273,7 +1276,8 @@ cfg_if! {
         target_arch = "x86_64",
         target_arch = "s390x",
         target_arch = "riscv64",
-        target_arch = "riscv32"
+        target_arch = "riscv32",
+        target_arch = "e2k64",
     ))] {
         pub const PTHREAD_STACK_MIN: ::size_t = 16384;
     } else if #[cfg(any(
@@ -1523,7 +1527,8 @@ cfg_if! {
                         target_arch = "mips64",
                         target_arch = "s390x",
                         target_arch = "sparc64",
-                        target_arch = "riscv64"))] {
+                        target_arch = "riscv64",
+                        target_arch = "e2k64"))] {
         mod b64;
         pub use self::b64::*;
     } else {
